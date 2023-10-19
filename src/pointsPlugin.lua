@@ -22,15 +22,15 @@
 -- • Remote future: control scene, AIs, spawn extra geometry and so on.
 
 -- Register the plugin as an app for the extras menu.
---ac.registerApp("TRG-Clique UI","Points plugin ui configuration.", "https://i.ibb.co/QngQbtJ/TRGround2.png")
+ac.registerApp("TRG-Clique UI","Points plugin ui configuration.", "https://i.ibb.co/QngQbtJ/TRGround2.png")
 
 -- Function to toggle the visibility of the app
---function toggleApp()
---    uiVisible = not uiVisible
---end
+function toggleApp()
+    uiVisible = not uiVisible
+end
 
 -- Add an entry in the extras menu to toggle the app
---ac.addAppEvent("TRG-Clique UI", toggleApp)
+ac.addAppEvent("TRG-Clique UI", toggleApp)
 
 -- Event configuration:
 local requiredSpeed = 80
