@@ -303,7 +303,7 @@ function script.drawUI()
 end
 
 local function pointsHUD()
-
+    ui.button("Toggle UI", toggleUI)
 end
 
 local function pointsHUDClosed()
@@ -313,5 +313,5 @@ end
 ui.registerOnlineExtra(ui.Icons.FastForward,
         'TRG UI',
         nil,
-        toggleApp(),
+        pointsHUD(),
         pointsHUDClosed)
