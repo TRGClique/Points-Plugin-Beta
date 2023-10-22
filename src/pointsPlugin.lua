@@ -313,5 +313,5 @@ end
 ui.registerOnlineExtra(ui.Icons.FastForward,
         'TRG UI',
         nil,
-        pointsHUD(),
+        pointsHUD,
         pointsHUDClosed)
