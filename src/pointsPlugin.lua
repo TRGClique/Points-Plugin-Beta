@@ -224,7 +224,7 @@ end
 
 local speedWarning = 0
 function script.drawUI()
-    if uiVisible then
+    if thisApp.uiVisible then
         local uiState = ac.getUiState()
         updateMessages(uiState.dt)
 
