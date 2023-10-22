@@ -26,11 +26,7 @@ local thisApp = {
 }
 
 function toggleApp()
-    thisApp.uiVisible = not thisApp.uiVisible
-end
-
-function onAppActivated()
-    toggleApp()
+    uiVisible = not uiVisible
 end
 
 -- Event configuration:
@@ -306,11 +302,12 @@ function script.drawUI()
     end
 end
 
-function onChatCommand(message)
-    if message == "/toggleUI" then
-        toggleApp()
-        ac.sendChatMessage("Your App has been toggled.")
-    end
+local function pointsHUD()
+
 end
 
-ac.addChatMessageListener(onChatCommand)
+local function pointsHUDClosed()
+
+end
+
+ui.registerOnlineExtra(ui.Icons.FastForward, 'TRG UI', nil, pointsHUD, pointsHUDClosed, ui.OnlineExtraFlags.Admin)
