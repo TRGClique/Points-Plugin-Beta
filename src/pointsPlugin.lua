@@ -310,4 +310,4 @@ local function pointsHUDClosed()
 
 end
 
-ui.registerOnlineExtra(ui.Icons.FastForward, 'TRG UI', nil, pointsHUD, pointsHUDClosed, ui.OnlineExtraFlags.Admin)
+ui.registerOnlineExtra(ui.Icons.FastForward, 'TRG UI', nil, pointsHUD, pointsHUDClosed)
