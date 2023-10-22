@@ -33,8 +33,6 @@ function onAppActivated()
     toggleApp()
 end
 
-ac.addMenuItem("TRG UI", onAppActivated)
-
 -- Event configuration:
 local requiredSpeed = 80
 
@@ -307,3 +305,11 @@ function script.drawUI()
         ui.endTransparentWindow()
     end
 end
+
+function onChatCommand(command)
+    if command == "/toggleUI" then
+        toggleApp()
+    end
+end
+
+ac.addChatEventListener(onChatCommand)
