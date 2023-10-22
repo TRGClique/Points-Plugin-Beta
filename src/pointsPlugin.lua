@@ -306,10 +306,11 @@ function script.drawUI()
     end
 end
 
-function onChatCommand(command)
-    if command == "/toggleUI" then
+function onChatCommand(message)
+    if message == "/toggleUI" then
         toggleApp()
+        ac.sendChatMessage("Your App has been toggled.")
     end
 end
 
-ac.addChatEventListener(onChatCommand)
+ac.addChatMessageListener(onChatCommand)
