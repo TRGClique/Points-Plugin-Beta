@@ -310,5 +310,6 @@ local function pointsHUDClosed()
 
 end
 
-ui.button("Toggle UI", toggleApp())
 ui.registerOnlineExtra(ui.Icons.FastForward, 'TRG UI', nil, pointsHUD, pointsHUDClosed)
+
+ui.button("Toggle UI", toggleApp())
