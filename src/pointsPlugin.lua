@@ -21,20 +21,22 @@
 --   and possibly record short replays?
 -- • Remote future: control scene, AIs, spawn extra geometry and so on.
 
--- Register the plugin as an app for the extras menu.
-ac.registerApp("TRG-Clique UI","Points plugin ui configuration.", "https://i.ibb.co/QngQbtJ/TRGround2.png")
+local thisApp = {
+    uiVisible = false
+}
 
--- Function to toggle the visibility of the app
 function toggleApp()
-    uiVisible = not uiVisible
+    thisApp.uiVisible = not thisApp.uiVisible
 end
 
--- Add an entry in the extras menu to toggle the app
-ac.addAppEvent("TRG-Clique UI", toggleApp)
+function onAppActivated()
+    toggleApp()
+end
+
+ac.addMenuItem("TRG UI", onAppActivated)
 
 -- Event configuration:
 local requiredSpeed = 80
-
 
 -- This function is called before event activates. Once it returns true, it’ll run:
 function script.prepare(dt)
@@ -228,7 +230,7 @@ end
 
 local speedWarning = 0
 function script.drawUI()
-    if uiVisible then
+    if thisApp.uiVisible then
         local uiState = ac.getUiState()
         updateMessages(uiState.dt)
 
