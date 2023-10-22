@@ -224,7 +224,7 @@ end
 
 local speedWarning = 0
 function script.drawUI()
-    if thisApp.uiVisible then
+    if uiVisible then
         local uiState = ac.getUiState()
         updateMessages(uiState.dt)
 
@@ -310,6 +310,8 @@ local function pointsHUDClosed()
 
 end
 
-ui.registerOnlineExtra(ui.Icons.FastForward, 'TRG UI', nil, pointsHUD, pointsHUDClosed)
-
-ui.button("Toggle UI", toggleApp())
+ui.registerOnlineExtra(ui.Icons.FastForward,
+        'TRG UI',
+        nil,
+        toggleApp(),
+        pointsHUDClosed)
