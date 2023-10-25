@@ -25,9 +25,7 @@ local thisApp = {
     uiVisible = false
 }
 
-function toggleApp()
-    uiVisible = not uiVisible
-end
+
 
 -- Event configuration:
 local requiredSpeed = 80
@@ -300,6 +298,10 @@ function script.drawUI()
 
         ui.endTransparentWindow()
     end
+end
+
+local function toggleApp()
+    thisApp.uiVisible = not thisApp.uiVisible
 end
 
 local function pointsHUD()
