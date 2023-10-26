@@ -22,7 +22,7 @@
 -- • Remote future: control scene, AIs, spawn extra geometry and so on.
 
 local thisApp = {
-    uiVisible = false
+    uiVisible = true
 }
 
 
@@ -305,7 +305,7 @@ local function toggleApp()
 end
 
 local function pointsHUD()
-    ui.button("Toggle UI", toggleApp)
+    ui.button("Toggle UI", toggleApp())
 end
 
 local function pointsHUDClosed()
