@@ -32,6 +32,9 @@ end
 
 -- Event state:
 local uiVisible = true
+local xLvl = 0
+local yLvl = 0
+
 local timePassed = 0
 local totalScore = 0
 local comboMeter = 1
@@ -299,14 +302,26 @@ local function toggleApp()
     uiVisible = not uiVisible
 end
 
+-- Extras menu app
 local function pointsHUD()
-    ui.button("Toggle App", toggleApp())
+    if ui.checkbox("Toggle App", uiVisible) then
+        uiVisible = not uiVisible
+    end
+
+    ui.newLine(1)
+    ui.text('Adjust Points HUD X Position')
+    ui.slider("      ", xLvl, 0, 100, "%.0f%%")
+
+    ui.newLine(1)
+    ui.text('Adjust Points HUD Y Position')
+    ui.slider("      ", yLvl, 0, 100, "%.0f%%")
 end
 
 local function pointsHUDClosed()
 
 end
 
+-- Register the app to the extras menu
 ui.registerOnlineExtra(ui.Icons.FastForward,
         'TRG UI',
         nil,
