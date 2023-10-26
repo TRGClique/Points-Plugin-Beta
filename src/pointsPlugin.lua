@@ -305,7 +305,7 @@ local function toggleApp()
 end
 
 local function pointsHUD()
-    ui.button("Toggle UI", toggleUI)
+    ui.button("Toggle UI", toggleApp)
 end
 
 local function pointsHUDClosed()
