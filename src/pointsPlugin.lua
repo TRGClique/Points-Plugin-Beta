@@ -234,17 +234,17 @@ function script.drawUI()
         rgbm.new(hsv(comboColor, math.saturate(comboMeter / 10), 1):rgb(), math.saturate(comboMeter / 4))
 
         local function speedMeter(ref)
-            ui.drawRectFilled(ref + vec2(0, -4), ref + vec2(180, 5), colorDark, 1)
-            ui.drawLine(ref + vec2(0, -4), ref + vec2(0, 4), colorGrey, 1)
-            ui.drawLine(ref + vec2(requiredSpeed, -4), ref + vec2(requiredSpeed, 4), colorGrey, 1)
+            ui.drawRectFilled((ref) + vec2(0 + xLvl, -4), ref + vec2(180 + xLvl, 5), colorDark, 1)
+            ui.drawLine(ref + vec2(0 + xLvl, -4), ref + vec2(0 + xLvl, 4), colorGrey, 1)
+            ui.drawLine(ref + vec2(requiredSpeed + xLvl, -4), ref + vec2(requiredSpeed + xLvl, 4), colorGrey, 1)
 
             local speed = math.min(ac.getCarState(1).speedKmh, 180)
             if speed > 1 then
-                ui.drawLine(ref + vec2(0, 0), ref + vec2(speed, 0), colorAccent, 4)
+                ui.drawLine(ref + vec2(0 + xLvl, 0), ref + vec2(speed + xLvl, 0), colorAccent, 4)
             end
         end
 
-        ui.beginTransparentWindow("overtakeScore", vec2(100, 100), vec2(400 * 0.5, 400 * 0.5))
+        ui.beginTransparentWindow("overtakeScore", vec2(100 + xLvl, 100), vec2(400 * 0.5 + xLvl, 400 * 0.5))
         ui.beginOutline()
 
         ui.pushStyleVar(ui.StyleVar.Alpha, 1 - speedWarning)
@@ -283,13 +283,13 @@ function script.drawUI()
             end
         end
         ui.popFont()
-        ui.setCursor(startPos + vec2(0, 4 * 30))
+        ui.setCursor(startPos + vec2(0 + xLvl, 4 * 30))
 
         ui.pushStyleVar(ui.StyleVar.Alpha, speedWarning)
         ui.setCursorY(0)
         ui.pushFont(ui.Font.Main)
         ui.textColored("Keep speed above " .. requiredSpeed .. " km/h:", colorAccent)
-        speedMeter(ui.getCursor() + vec2(-9 * 0.5, 4 * 0.2))
+        speedMeter(ui.getCursor() + vec2(-9 * 0.5 + xLvl, 4 * 0.2))
 
         ui.popFont()
         ui.popStyleVar()
