@@ -21,12 +21,6 @@
 --   and possibly record short replays?
 -- • Remote future: control scene, AIs, spawn extra geometry and so on.
 
-local thisApp = {
-    uiVisible = true
-}
-
-
-
 -- Event configuration:
 local requiredSpeed = 80
 
@@ -37,6 +31,7 @@ function script.prepare(dt)
 end
 
 -- Event state:
+local uiVisible = true
 local timePassed = 0
 local totalScore = 0
 local comboMeter = 1
@@ -222,7 +217,7 @@ end
 
 local speedWarning = 0
 function script.drawUI()
-    if thisApp.uiVisible then
+    if uiVisible then
         local uiState = ac.getUiState()
         updateMessages(uiState.dt)
 
@@ -301,11 +296,11 @@ function script.drawUI()
 end
 
 local function toggleApp()
-    thisApp.uiVisible = not thisApp.uiVisible
+    uiVisible = not uiVisible
 end
 
 local function pointsHUD()
-    ui.button("Toggle UI", toggleApp())
+    ui.button("Toggle App", toggleApp())
 end
 
 local function pointsHUDClosed()
