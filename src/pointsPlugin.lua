@@ -309,12 +309,18 @@ local function pointsHUD()
     end
 
     ui.newLine(1)
-    ui.text('Adjust Points HUD X Position')
-    ui.slider("      ", xLvl, 0, 100, "%.0f%%")
+    ui.text('HUD X Position')
+    local curXLvl, newXLvl = ui.slider("      ", xLvl, 0, 100, "%.0f%%")
+    if newXLvl then
+        xLvl = curXLvl
+    end
 
     ui.newLine(1)
-    ui.text('Adjust Points HUD Y Position')
-    ui.slider("      ", yLvl, 0, 100, "%.0f%%")
+    ui.text('HUD X Position')
+    local curYLvl, newYLvl = ui.slider("      ", yLvl, 0, 100, "%.0f%%")
+    if newYLvl then
+        yLvl = curYLvl
+    end
 end
 
 local function pointsHUDClosed()
