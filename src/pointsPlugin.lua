@@ -44,8 +44,6 @@ local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
 
-local screenWidth, _ = ac.getScreenSize()
-
 function script.update(dt)
     if timePassed == 0 then
         addMessage("Let’s go!", 0)
@@ -312,14 +310,14 @@ local function pointsHUD()
 
     ui.newLine(1)
     ui.text('HUD X Position')
-    local curXLvl, newXLvl = ui.slider("      ", xLvl, 0, 100, "%.0f%%")
+    local curXLvl, newXLvl = ui.slider("      ", xLvl, 0, 2000, "%.0f%%")
     if newXLvl then
         xLvl = curXLvl
     end
 
     ui.newLine(1)
     ui.text('HUD Y Position')
-    local curYLvl, newYLvl = ui.slider("      ", yLvl, 0, 100, "%.0f%%")
+    local curYLvl, newYLvl = ui.slider("      ", yLvl, 0, 2000, "%.0f%%")
     if newYLvl then
         yLvl = curYLvl
     end
