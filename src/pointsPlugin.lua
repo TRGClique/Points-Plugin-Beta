@@ -44,7 +44,7 @@ local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
 
-local screenWidth, _ = Graphics.GetRes()
+local screenWidth, _ = ac.getScreenSize()
 
 function script.update(dt)
     if timePassed == 0 then
