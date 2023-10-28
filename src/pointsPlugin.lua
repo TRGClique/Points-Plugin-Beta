@@ -244,7 +244,7 @@ function script.drawUI()
             end
         end
 
-        ui.beginTransparentWindow("overtakeScore", vec2(100 +  xLvl, 100), vec2(400 * 0.5 + xLvl, 400 * 0.5))
+        ui.beginTransparentWindow("overtakeScore", vec2(100 +  xLvl, 100 + yLvl), vec2(400 * 0.5, 400 * 0.5))
         ui.beginOutline()
 
         ui.pushStyleVar(ui.StyleVar.Alpha, 1 - speedWarning)
@@ -317,7 +317,7 @@ local function pointsHUD()
 
     ui.newLine(1)
     ui.text('HUD Y Position')
-    local curYLvl, newYLvl = ui.slider("      ", yLvl, 0, 2000, "%.0f%%")
+    local curYLvl, newYLvl = ui.slider("      ", yLvl, 0, 2000)
     if newYLvl then
         yLvl = curYLvl
     end
