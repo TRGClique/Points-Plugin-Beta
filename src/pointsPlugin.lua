@@ -309,12 +309,16 @@ local function pointsHUD()
     end
 
     -- X Position
+    ui.newLine(1)
+    ui.text('HUD X Position')
     local curXLvl, newXLvl = ui.slider("X Position", xLvl, 0, 2000)
     if newXLvl then
         xLvl = curXLvl
     end
 
     -- Y Position
+    ui.newLine(1)
+    ui.text('HUD Y Position')
     local curYLvl, newYLvl = ui.slider("Y Position", yLvl, 0, 2000)
     if newYLvl then
         yLvl = curYLvl
