@@ -46,7 +46,8 @@ local carsState = {}
 local wheelsWarningTimeout = 0
 
 local image_0 = {
-    ['src'] = 'https://i.ibb.co/Q8SsZjL/Points-Sticker.png',
+    --['src'] = 'https://i.ibb.co/Q8SsZjL/Points-Sticker.png',
+    ['src'] = '',
     ['sizeX'] = 903, --size of your image in pixels
     ['sizeY'] = 901, --size of your image in pixels
     ['paddingX'] = screenWidth/2-902/2, --this makes it sit in the centre of the screen
