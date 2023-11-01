@@ -308,7 +308,8 @@ function script.drawUI()
         --local imageSource = 'https://i.ibb.co/Q8SsZjL/Points-Sticker.png'
         --ui.drawImage(imageSource, vec2(0, 0), vec2(100, 100), rgbm.colors.white, vec2(0, 0), vec2(1, 1))
 
-        ui.drawImage(image_0.src, vec2(image_0.paddingX, screenHeight-image_0.sizeY-image_0.paddingY), vec2(image_0.sizeX+image_0.paddingX, screenHeight-image_0.paddingY), true)
+        --ui.drawImage(image_0.src, vec2(image_0.paddingX, screenHeight-image_0.sizeY-image_0.paddingY), vec2(image_0.sizeX+image_0.paddingX, screenHeight-image_0.paddingY), true)
+        ui.drawImage(image_0.src, vec2(100 +  xLvl, 100 + yLvl), vec2(400 * 0.5, 400 * 0.5), true)
     end
 end
 
@@ -325,7 +326,7 @@ local function pointsHUD()
     -- X Position
     ui.newLine(1)
     ui.text('HUD X Position')
-    local curXLvl, newXLvl = ui.slider("X Position", xLvl, 0, ac.getSim().windowWidth, 5)
+    local curXLvl, newXLvl = ui.slider("X Position", xLvl, 0, ac.getSim().windowWidth)
     if newXLvl then
         xLvl = curXLvl
     end
@@ -333,7 +334,7 @@ local function pointsHUD()
     -- Y Position
     ui.newLine(1)
     ui.text('HUD Y Position')
-    local curYLvl, newYLvl = ui.slider("Y Position", yLvl, 0, ac.getSim().windowHeight, 5)
+    local curYLvl, newYLvl = ui.slider("Y Position", yLvl, 0, ac.getSim().windowHeight)
     if newYLvl then
         yLvl = curYLvl
     end
