@@ -34,6 +34,7 @@ end
 local uiVisible = true
 local xLvl = 0
 local yLvl = 0
+local scale = 0
 local screenWidth = ac.getSim().windowWidth
 local screenHeight = ac.getSim().windowHeight
 local timePassed = 0
@@ -46,8 +47,7 @@ local carsState = {}
 local wheelsWarningTimeout = 0
 
 local image_0 = {
-    --['src'] = 'https://i.ibb.co/Q8SsZjL/Points-Sticker.png',
-    ['src'] = '',
+    ['src'] = 'https://i.ibb.co/Q8SsZjL/Points-Sticker.png',
     ['sizeX'] = 903, --size of your image in pixels
     ['sizeY'] = 901, --size of your image in pixels
     ['paddingX'] = screenWidth/2-902/2, --this makes it sit in the centre of the screen
@@ -255,7 +255,7 @@ function script.drawUI()
         end
 
         -- Background
-        ui.drawImage(image_0.src, vec2(100 +  xLvl, 100 + yLvl), vec2(500 +  xLvl, 500 + yLvl), true)
+        ui.drawImage(image_0.src, vec2(100 +  xLvl, 100 + yLvl), vec2(500 +  xLvl + scale, 500 + yLvl + scale), true)
 
         ui.beginTransparentWindow("overtakeScore", vec2(100 +  xLvl, 100 + yLvl), vec2(300 + xLvl, 300 + yLvl))
         ui.beginOutline()
@@ -335,6 +335,14 @@ local function pointsHUD()
     local curYLvl, newYLvl = ui.slider("Y Position", yLvl, 0, ac.getSim().windowHeight)
     if newYLvl then
         yLvl = curYLvl
+    end
+
+    -- Scale
+    ui.newLine(1)
+    ui.text('HUD Scale')
+    local curScale, newScale = ui.slider("Y Position", yLvl, 0, ac.getSim().windowHeight)
+    if newScale then
+        scale = curScale
     end
 end
 
