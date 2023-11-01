@@ -295,7 +295,7 @@ function script.drawUI()
         ui.popStyleVar()
 
         local imageSource = ui.ImageSource.fromUrl('https://i.ibb.co/Q8SsZjL/Points-Sticker.png')
-        ui.drawImage(imageSource, vec2(0, 0), vec2(100, 100), rgbm.colors.white, vec2(0, 0), vec2(1, 1), aspect_ratio_mode::stretch)
+        ui.drawImage(imageSource, vec2(0, 0), vec2(100, 100), rgbm.colors.white, vec2(0, 0), vec2(1, 1))
 
         ui.endTransparentWindow()
     end
