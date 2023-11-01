@@ -294,7 +294,9 @@ function script.drawUI()
         ui.popFont()
         ui.popStyleVar()
 
-        ui.drawImage("https://i.ibb.co/Q8SsZjL/Points-Sticker.png",0,0,rgbm.colors.white, vec2(0, 0), vec2(100, 100), aspect_ratio_mode::stretch)
+        ui.image('https://i.ibb.co/Q8SsZjL/Points-Sticker.png')
+
+        -- ui.drawImage("https://i.ibb.co/Q8SsZjL/Points-Sticker.png",0,0,rgbm.colors.white, vec2(0, 0), vec2(100, 100), aspect_ratio_mode::stretch)
 
         ui.endTransparentWindow()
     end
