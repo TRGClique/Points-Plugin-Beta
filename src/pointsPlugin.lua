@@ -34,7 +34,7 @@ end
 local uiVisible = true
 local xLvl = 0
 local yLvl = 0
-
+local screenWidth = ac.getSim().windowWidth
 local timePassed = 0
 local totalScore = 0
 local comboMeter = 1
@@ -48,7 +48,7 @@ local image_0 = {
     ['src'] = 'https://i.ibb.co/Q8SsZjL/Points-Sticker.png',
     ['sizeX'] = 903, --size of your image in pixels
     ['sizeY'] = 901, --size of your image in pixels
-    ['paddingX'] = screensize.x/2-902/2, --this makes it sit in the centre of the screen
+    ['paddingX'] = screenWidth/2-902/2, --this makes it sit in the centre of the screen
     ['paddingY'] = -50 --this moves it up 50 pixels
 }
 
