@@ -255,7 +255,7 @@ function script.drawUI()
         end
 
         -- Background
-        ui.drawImage(image_0.src, vec2(100 +  xLvl, 100 + yLvl), vec2(500 +  xLvl + scale, 500 + yLvl + scale), true)
+        ui.drawImage(image_0.src, vec2(100 +  xLvl, 100 + yLvl), vec2(100 +  xLvl + scale, 100 + yLvl + scale), true)
 
         ui.beginTransparentWindow("overtakeScore", vec2(100 +  xLvl, 100 + yLvl), vec2(300 + xLvl, 300 + yLvl))
         ui.beginOutline()
@@ -340,7 +340,7 @@ local function pointsHUD()
     -- Scale
     ui.newLine(1)
     ui.text('HUD Scale')
-    local curScale, newScale = ui.slider("Y Position", yLvl, 0, ac.getSim().windowHeight)
+    local curScale, newScale = ui.slider("Scale", scale, 0, 500)
     if newScale then
         scale = curScale
     end
