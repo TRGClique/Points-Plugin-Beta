@@ -35,6 +35,7 @@ local uiVisible = true
 local xLvl = 0
 local yLvl = 0
 local screenWidth = ac.getSim().windowWidth
+local screenHeight = ac.getSim().windowHeight
 local timePassed = 0
 local totalScore = 0
 local comboMeter = 1
@@ -305,7 +306,7 @@ function script.drawUI()
         --local imageSource = 'https://i.ibb.co/Q8SsZjL/Points-Sticker.png'
         --ui.drawImage(imageSource, vec2(0, 0), vec2(100, 100), rgbm.colors.white, vec2(0, 0), vec2(1, 1))
 
-        ui.drawImage(image_0.src, vec2(image_0.paddingX, screensize.y-image_0.sizeY-image_0.paddingY), vec2(image_0.sizeX+image_0.paddingX, screensize.y-image_0.paddingY), true)
+        ui.drawImage(image_0.src, vec2(image_0.paddingX, screenHeight-image_0.sizeY-image_0.paddingY), vec2(image_0.sizeX+image_0.paddingX, screenHeight-image_0.paddingY), true)
 
         ui.endTransparentWindow()
     end
