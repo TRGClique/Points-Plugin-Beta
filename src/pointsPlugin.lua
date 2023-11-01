@@ -44,6 +44,14 @@ local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
 
+local image_0 = {
+    ['src'] = 'https://i.ibb.co/Q8SsZjL/Points-Sticker.png',
+    ['sizeX'] = 903, --size of your image in pixels
+    ['sizeY'] = 901, --size of your image in pixels
+    ['paddingX'] = screensize.x/2-902/2, --this makes it sit in the centre of the screen
+    ['paddingY'] = -50 --this moves it up 50 pixels
+}
+
 function script.update(dt)
     if timePassed == 0 then
         addMessage("Let’s go!", 0)
@@ -294,8 +302,10 @@ function script.drawUI()
         ui.popFont()
         ui.popStyleVar()
 
-        local imageSource = 'https://i.ibb.co/Q8SsZjL/Points-Sticker.png'
-        ui.drawImage(imageSource, vec2(0, 0), vec2(100, 100), rgbm.colors.white, vec2(0, 0), vec2(1, 1))
+        --local imageSource = 'https://i.ibb.co/Q8SsZjL/Points-Sticker.png'
+        --ui.drawImage(imageSource, vec2(0, 0), vec2(100, 100), rgbm.colors.white, vec2(0, 0), vec2(1, 1))
+
+        ui.drawImage(image_0.src, vec2(image_0.paddingX, screensize.y-image_0.sizeY-image_0.paddingY), vec2(image_0.sizeX+image_0.paddingX, screensize.y-image_0.paddingY), true)
 
         ui.endTransparentWindow()
     end
@@ -314,7 +324,7 @@ local function pointsHUD()
     -- X Position
     ui.newLine(1)
     ui.text('HUD X Position')
-    local curXLvl, newXLvl = ui.slider("X Position", xLvl, 0, 3000, 5)
+    local curXLvl, newXLvl = ui.slider("X Position", xLvl, 0, ac.getSim().windowWidth, 5)
     if newXLvl then
         xLvl = curXLvl
     end
@@ -322,7 +332,7 @@ local function pointsHUD()
     -- Y Position
     ui.newLine(1)
     ui.text('HUD Y Position')
-    local curYLvl, newYLvl = ui.slider("Y Position", yLvl, 0, 3000, 5)
+    local curYLvl, newYLvl = ui.slider("Y Position", yLvl, 0, ac.getSim().windowHeight, 5)
     if newYLvl then
         yLvl = curYLvl
     end
