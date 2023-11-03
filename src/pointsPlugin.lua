@@ -34,7 +34,7 @@ end
 local uiVisible = true
 local xLvl = 0
 local yLvl = 0
-local scale = 0
+local scale = 200
 local screenWidth = ac.getSim().windowWidth
 local screenHeight = ac.getSim().windowHeight
 local timePassed = 0
@@ -324,7 +324,7 @@ local function pointsHUD()
     -- X Position
     ui.newLine(1)
     ui.text('HUD X Position')
-    local curXLvl, newXLvl = ui.slider("X Position", xLvl, 0, screenWidth)
+    local curXLvl, newXLvl = ui.slider("X Position", xLvl, -screenWidth, screenWidth)
     if newXLvl then
         xLvl = curXLvl
     end
@@ -332,7 +332,7 @@ local function pointsHUD()
     -- Y Position
     ui.newLine(1)
     ui.text('HUD Y Position')
-    local curYLvl, newYLvl = ui.slider("Y Position", yLvl, 0, screenHeight)
+    local curYLvl, newYLvl = ui.slider("Y Position", yLvl, -screenHeight, screenHeight)
     if newYLvl then
         yLvl = curYLvl
     end
