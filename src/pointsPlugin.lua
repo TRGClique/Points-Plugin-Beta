@@ -47,10 +47,10 @@ local carsState = {}
 local wheelsWarningTimeout = 0
 
 local image_0 = {
-    ['src'] = 'https://i.ibb.co/Q8SsZjL/Points-Sticker.png',
-    ['sizeX'] = 903, --size of your image in pixels
-    ['sizeY'] = 901, --size of your image in pixels
-    ['paddingX'] = screenWidth/2-902/2, --this makes it sit in the centre of the screen
+    ['src'] = 'https://i.ibb.co/n7Rrx7T/Sticker-V2.png',
+    ['sizeX'] = 743, --size of your image in pixels
+    ['sizeY'] = 744, --size of your image in pixels
+    ['paddingX'] = screenWidth/2-744/2, --this makes it sit in the centre of the screen
     ['paddingY'] = -50 --this moves it up 50 pixels
 }
 
@@ -324,7 +324,7 @@ local function pointsHUD()
     -- X Position
     ui.newLine(1)
     ui.text('HUD X Position')
-    local curXLvl, newXLvl = ui.slider("X Position", xLvl, 0, ac.getSim().windowWidth)
+    local curXLvl, newXLvl = ui.slider("X Position", xLvl, 0, screenWidth)
     if newXLvl then
         xLvl = curXLvl
     end
@@ -332,7 +332,7 @@ local function pointsHUD()
     -- Y Position
     ui.newLine(1)
     ui.text('HUD Y Position')
-    local curYLvl, newYLvl = ui.slider("Y Position", yLvl, 0, ac.getSim().windowHeight)
+    local curYLvl, newYLvl = ui.slider("Y Position", yLvl, 0, screenHeight)
     if newYLvl then
         yLvl = curYLvl
     end
