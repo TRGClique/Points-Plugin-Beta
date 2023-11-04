@@ -255,10 +255,11 @@ function script.drawUI()
         end
 
         -- Background
-        ui.drawImage(image_0.src, vec2(100 +  xLvl, 100 + yLvl), vec2(100 +  xLvl + scale, 100 + yLvl + scale), true)
 
         ui.beginTransparentWindow("overtakeScore", vec2(100 +  xLvl, 100 + yLvl), vec2(300 + xLvl, 300 + yLvl))
         ui.beginOutline()
+
+        ui.drawImage(image_0.src, vec2(100 +  xLvl, 100 + yLvl), vec2(100 +  xLvl + scale, 100 + yLvl + scale), true)
 
         ui.pushStyleVar(ui.StyleVar.Alpha, 1 - speedWarning)
         ui.pushFont(ui.Font.Main)
@@ -309,10 +310,6 @@ function script.drawUI()
 
         ui.endTransparentWindow()
     end
-end
-
-local function toggleApp()
-    uiVisible = not uiVisible
 end
 
 -- Extras menu app
