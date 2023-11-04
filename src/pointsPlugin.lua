@@ -263,11 +263,12 @@ function script.drawUI()
 
         ui.pushStyleVar(ui.StyleVar.Alpha, 1 - speedWarning)
         ui.pushFont(ui.Font.Main)
-        ui.textAligned("Highest Score: " .. highestScore .. " pts", vec2(scale/2, scale/2))
+        ui.textAligned("Highest Score: " .. highestScore .. " pts", vec2(50, 50))
         ui.popFont()
         ui.popStyleVar()
 
         ui.pushFont(ui.Font.Title)
+        ui.textAligned(totalScore .. " pts", vec2(50, 50))
         ui.text(totalScore .. " pts")
         ui.sameLine(0, 20)
         ui.beginRotation()
