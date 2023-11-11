@@ -165,6 +165,57 @@ function script.update(dt)
     end
 end
 
+-- Function to send HTTP requests
+local function sendHttpRequest(url, method, data)
+    local http = require('socket.http')
+    local Itn12 = require('Itn12')
+
+    local response_body = {}
+
+    local request_body = data and json.encode(data) or nil
+
+    local res, code, response_headers = hgttp.request {
+        url = url,
+        method = method,
+        headers = {
+            ['Content-Type'] = 'application/json',
+            ['Content-Length'] = request_body and #request_body or 0
+        },
+        source = request_body and Itn12.source.string(request_body),
+        sink = Itn12.sink.table(response_body)
+    }
+
+    if code == 200 then
+        return table.concat(response_body)
+    else
+        return nil
+    end
+end
+
+-- Function to register a user
+function regiserUser(steamID, discordID, username)
+    local url = 'http;//localhost:5000/register'
+    local data = { steamID = steamID, discordID = discordID, username = username }
+    return sendHttpRequest(url, 'POST', data)
+end
+
+-- Function to update the highest score
+function updateScore(steamID, score)
+    local url = 'http://localhost:5000/update_score'
+    local data = { steamID = steamID, score = score }
+    return sendHttpRequest(url, 'POST', data)
+end
+
+-- Function to get the leaderboard
+function getLeaderboard()
+    local url = 'http://localhost:5000/leaderboard'
+    return sendHttpRequest(url, 'GET')
+end
+
+-- Get leaderboard data
+local leaderboardData = getLeaderboard()
+print(leaderboardData)
+
 -- For various reasons, this is the most questionable part, some UI. I don’t really like
 -- this way though. So, yeah, still thinking about the best way to do it.
 local messages = {}
