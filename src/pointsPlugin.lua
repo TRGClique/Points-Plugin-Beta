@@ -23,6 +23,7 @@
 
 -- Event configuration:
 local requiredSpeed = 80
+local json = require('json')
 
 -- This function is called before event activates. Once it returns true, it’ll run:
 function script.prepare(dt)
@@ -174,7 +175,7 @@ local function sendHttpRequest(url, method, data)
 
     local request_body = data and json.encode(data) or nil
 
-    local res, code, response_headers = hgttp.request {
+    local res, code, response_headers = http.request {
         url = url,
         method = method,
         headers = {
@@ -194,7 +195,7 @@ end
 
 -- Function to register a user
 function regiserUser(steamID, discordID, username)
-    local url = 'http;//localhost:5000/register'
+    local url = 'http://localhost:5000/register'
     local data = { steamID = steamID, discordID = discordID, username = username }
     return sendHttpRequest(url, 'POST', data)
 end
