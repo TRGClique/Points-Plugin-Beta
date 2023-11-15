@@ -217,7 +217,18 @@ end
 local leaderboardData = getLeaderboard()
 print(leaderboardData)
 print(100)
-print("test")
+
+
+local handle = io.popen("cd")
+local result = handle:read("*a")
+
+-- Close the handle
+handle:close()
+
+-- Print the result
+print("Current Working Directory:", result)
+
+
 
 -- For various reasons, this is the most questionable part, some UI. I don’t really like
 -- this way though. So, yeah, still thinking about the best way to do it.
