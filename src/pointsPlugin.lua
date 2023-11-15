@@ -217,7 +217,7 @@ end
 local leaderboardData = getLeaderboard()
 print(leaderboardData)
 print(100)
-ac.log("test")
+print("test")
 
 -- For various reasons, this is the most questionable part, some UI. I don’t really like
 -- this way though. So, yeah, still thinking about the best way to do it.
