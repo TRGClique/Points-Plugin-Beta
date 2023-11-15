@@ -216,7 +216,7 @@ end
 -- Get leaderboard data
 local leaderboardData = getLeaderboard()
 print(leaderboardData)
-print(os.getenv("CD"))
+­ac.log(os.getenv("CD"))
 
 -- For various reasons, this is the most questionable part, some UI. I don’t really like
 -- this way though. So, yeah, still thinking about the best way to do it.
