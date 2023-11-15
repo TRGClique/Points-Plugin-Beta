@@ -169,7 +169,7 @@ end
 -- Function to send HTTP requests
 local function sendHttpRequest(url, method, data)
     local http = require('socket.http')
-    local Itn12 = require('Itn12')
+    local Itn12 = require('Itn12.lua')
 
     local response_body = {}
 
