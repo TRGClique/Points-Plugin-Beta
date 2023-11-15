@@ -216,11 +216,7 @@ end
 -- Get leaderboard data
 local leaderboardData = getLeaderboard()
 print(leaderboardData)
-print(100)
-
-os.execute("cd > temp.txt")
-
-
+print(io.popen("cd"):read())
 print(debug.getinfo(1).short_src)
 print(debug.getinfo(1))
 
