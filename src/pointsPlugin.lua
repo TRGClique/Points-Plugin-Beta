@@ -220,20 +220,9 @@ print(100)
 
 os.execute("cd > temp.txt")
 
--- Open the temporary file and read the result
-local file = io.open("temp.txt", "r")
-if file then
-    local result = file:read("*a")
-    file:close()
 
-    -- Print the result
-    print("Current Working Directory:", result)
-
-    -- Optionally, delete the temporary file
-    os.remove("temp.txt")
-else
-    print("Error: Unable to open temporary file.")
-end
+print(debug.getinfo(1).short_src)
+print(debug.getinfo(1))
 
 -- For various reasons, this is the most questionable part, some UI. I don’t really like
 -- this way though. So, yeah, still thinking about the best way to do it.
