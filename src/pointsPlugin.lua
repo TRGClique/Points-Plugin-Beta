@@ -23,7 +23,7 @@
 
 -- Event configuration:
 local requiredSpeed = 80
-local json = require('json')
+local json = require('extension\\lua\\tools\\csp-traffic-tool\\lib\\json.lua')
 
 -- This function is called before event activates. Once it returns true, it’ll run:
 function script.prepare(dt)
