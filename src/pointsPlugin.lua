@@ -202,14 +202,14 @@ end
 
 -- Function to update the highest score
 function updateScore(steamID, otl)
-    local url = 'http://192.168.1.123:8000/otl'
+    local url = 'http://192.168.1.123:8069/otl'
     local data = { steamID = steamID, otl = otl }
     return sendHttpRequest(url, 'POST', data)
 end
 
 -- Function to get the leaderboard
 function getLeaderboard()
-    local url = 'http://192.168.1.123:8000/leaderboard'
+    local url = 'http://192.168.1.123:8069/leaderboard'
     return sendHttpRequest(url, 'GET')
 end
 
