@@ -177,12 +177,7 @@ print(ac.getUserSteamID())
 print(leaderboardData)
 print(ac.getUserSteamID())
 
-if highestScore == nil then
-    if downloadedScoreCache == nil then
-        downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
-    end
-    highestScore = downloadedScoreCache or 0 -- Fallback to 0 if downloadedScoreCache is still nil
-end
+
 
 
 
@@ -198,7 +193,12 @@ function script.update(dt)
         addMessage("Let’s go!", 0)
     end
     local highestScore = downloadedScoreCache or getLeaderboardUserScore()
-    
+    if highestScore == nil then
+        if downloadedScoreCache == nil then
+            downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
+        end
+        highestScore = downloadedScoreCache or 0 -- Fallback to 0 if downloadedScoreCache is still nil
+    end
 
     local player = ac.getCarState(1)
     local usteamID = ac.getUserSteamID()
@@ -377,6 +377,12 @@ end
 
 local speedWarning = 0
 function script.drawUI()
+    if highestScore == nil then
+        if downloadedScoreCache == nil then
+            downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
+        end
+        highestScore = downloadedScoreCache or 0 -- Fallback to 0 if downloadedScoreCache is still nil
+    end
     if uiVisible then
         local uiState = ac.getUiState()
         updateMessages(uiState.dt)
