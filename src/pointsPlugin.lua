@@ -232,14 +232,20 @@ function getLeaderboardUserScore()
         return {status = "error", message = error}
     end
 
-    -- Check if the response is nil or not a string
-    if not response or type(response) ~= 'string' then
-        print(response)
-        return {status = "error", message = "Invalid response"}
+    -- Check if the response is a table and extract the JSON string
+    local jsonResponse
+    if type(response) == 'table' then
+        -- Assuming the JSON string is in a specific field of the table
+        -- Replace 'jsonField' with the actual key where the JSON string is stored
+        jsonResponse = response.jsonField
+    elseif type(response) == 'string' then
+        jsonResponse = response
+    else
+        return {status = "error", message = "Invalid response type"}
     end
 
     -- Decode the JSON response
-    local decoded, decodeError = json.decode(response)
+    local decoded, decodeError = json.decode(jsonResponse)
 
     if decodeError then
         print("Decode Error: ", decodeError)
