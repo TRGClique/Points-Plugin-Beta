@@ -177,13 +177,6 @@ print(ac.getUserSteamID())
 print(leaderboardData)
 print(ac.getUserSteamID())
 
-if highestScore == nil then
-    
-    if downloadedScoreCache == nil then
-        downloadedScoreCache = getLeaderboardUserScore()
-        highestScore = downloadedScoreCache
-    end
-end
 
 
 
