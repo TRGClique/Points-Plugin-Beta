@@ -208,6 +208,9 @@ function script.update(dt)
             ac.sendChatMessage("scored " .. totalScore .. " points.")
             updateScore(usteamID, totalScore)
             downloadedScoreCache = nil
+            if downloadedScoreCache == nil then
+                downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
+            end
         end
         totalScore = 0
         comboMeter = 1
@@ -240,6 +243,9 @@ function script.update(dt)
                 ac.sendChatMessage("scored " .. totalScore .. " points.")
                 updateScore(usteamID, totalScore)
                 downloadedScoreCache = nil
+                if downloadedScoreCache == nil then
+                    downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
+                end
             end
             totalScore = 0
             comboMeter = 1
@@ -289,6 +295,9 @@ function script.update(dt)
                 totalScore = 0
                 comboMeter = 1
                 downloadedScoreCache = nil
+                if downloadedScoreCache == nil then
+                    downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
+                end
             end
 
             if not state.overtaken and not state.collided and state.drivingAlong then
