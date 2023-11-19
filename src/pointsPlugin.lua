@@ -233,6 +233,7 @@ function getLeaderboardUserScore()
     end
 
     -- Decode the JSON response
+    print(response)
     local decoded, decodeError = json.decode(response)
 
     if decodeError then
@@ -259,6 +260,7 @@ end
 
 -- Get leaderboard data
 local leaderboardData = getLeaderboardUserScore()
+print(ac.getUserSteamID())
 print(leaderboardData)
 print(ac.getUserSteamID())
 
