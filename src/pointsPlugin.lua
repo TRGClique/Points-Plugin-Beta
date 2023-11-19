@@ -96,6 +96,7 @@ end
 function updateScore(steamID, otl)
     local url = 'http://192.168.1.123:8069/otl'
     local data = { steamid = steamID, otl = otl }
+    highestScore = otl
     return sendHttpRequest(url, 'POST', data)
 end
 
@@ -207,6 +208,7 @@ function script.update(dt)
             highestScore = math.floor(totalScore)
             ac.sendChatMessage("scored " .. totalScore .. " points.")
             updateScore(usteamID, totalScore)
+            highestScore = nil
             downloadedScoreCache = nil
             if downloadedScoreCache == nil then
                 downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
@@ -242,6 +244,7 @@ function script.update(dt)
                 highestScore = math.floor(totalScore)
                 ac.sendChatMessage("scored " .. totalScore .. " points.")
                 updateScore(usteamID, totalScore)
+                highestScore = nil
                 downloadedScoreCache = nil
                 if downloadedScoreCache == nil then
                     downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
@@ -295,6 +298,7 @@ function script.update(dt)
                 totalScore = 0
                 comboMeter = 1
                 downloadedScoreCache = nil
+                highestScore = nil
                 if downloadedScoreCache == nil then
                     downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
                 end
@@ -389,12 +393,7 @@ end
 
 local speedWarning = 0
 function script.drawUI()
-    if highestScore == nil then
-        if downloadedScoreCache == nil then
-            downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
-        end
-        highestScore = downloadedScoreCache or 0 -- Fallback to 0 if downloadedScoreCache is still nil
-    end
+    
     if uiVisible then
         local uiState = ac.getUiState()
         updateMessages(uiState.dt)
@@ -425,10 +424,15 @@ function script.drawUI()
         ui.beginOutline()
 
         ui.drawImage(image_0.src, vec2(0, 0), vec2(scale, scale), true)
-
+        if highestScore == nil then
+            if downloadedScoreCache == nil then
+                downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
+            end
+            highestScore = downloadedScoreCache or 0 -- Fallback to 0 if downloadedScoreCache is still nil
+        end
         ui.pushStyleVar(ui.StyleVar.Alpha, 1 - speedWarning)
         ui.pushFont(ui.Font.Main)
-        ui.textAligned("Highest Score: " .. highestScore .. " pts", vec2(50, 50))
+        ui.textAligned("Highest Score: " .. downloadedScoreCache .. " pts", vec2(50, 50))
         ui.popFont()
         ui.popStyleVar()
 
