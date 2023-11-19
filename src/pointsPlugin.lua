@@ -226,26 +226,35 @@ function getLeaderboardUserScore()
     local url = 'http://192.168.1.123:8069/otl'
     local payload = { steamid = usteamID }
     local response, error = sendHttpRequest(url, 'GET', payload)
+
     if error then
         print("Error: ", error)
-        return {status = "error", message = error}
+        return 0
     end
 
+    -- Decode the JSON response
     local decoded, decodeError = json.decode(response)
+
     if decodeError then
         print("Decode Error: ", decodeError)
         return {status = "error", message = decodeError}
+    elseif decoded and decoded.detail then
+        -- Handle the specific error returned in the JSON response
+        print("Error Detail: ", decoded.detail)
+        return 0
     end
 
     -- Extract the HighScore value
     local highScore = decoded.HighScore and decoded.HighScore[1] or nil
 
-    -- You might want to handle the case when HighScore is nil
+    -- Handle the case when HighScore is nil
     if not highScore then
-        return {status = "error", message = "HighScore not found"}
+        print({status = "error", message = "HighScore not found"})
+        return 0
     end
 
     return highScore
+
 end
 
 -- Get leaderboard data
