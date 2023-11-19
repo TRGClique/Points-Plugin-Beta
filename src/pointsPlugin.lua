@@ -264,12 +264,14 @@ function getLeaderboardUserScore()
     end
 
     -- Extract the HighScore value
-    local highScore = decoded.HighScore and decoded.HighScore[1] or nil
-
-    -- Handle the case when HighScore is nil
-    if not highScore then
-        print("Error Detail: HighScore not found")
-        return {status = "error", message = "HighScore not found"}
+    local highScore
+    if decoded and type(decoded.HighScore) == 'table' then
+        highScore = decoded.HighScore[1] -- Assuming HighScore is an array
+    elseif decoded and type(decoded.HighScore) == 'number' then
+        highScore = decoded.HighScore -- HighScore is a direct number
+    else
+        print("Error Detail: HighScore not found or invalid format")
+        return {status = "error", message = "HighScore not found or invalid format"}
     end
 
     return highScore
