@@ -42,7 +42,7 @@ local timePassed = 0
 local totalScore = 0
 local comboMeter = 1
 local comboColor = 0
-local highestScore = getLeaderboardUserScore()
+local highestScore = 0
 local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
@@ -56,6 +56,7 @@ local image_0 = {
 }
 
 function script.update(dt)
+    local highscore = getLeaderboardUserScore()
     if timePassed == 0 then
         addMessage("Let’s go!", 0)
     end
