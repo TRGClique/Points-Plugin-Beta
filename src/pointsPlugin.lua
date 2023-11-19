@@ -229,11 +229,16 @@ function getLeaderboardUserScore()
 
     if error then
         print("Error: ", error)
-        return 0
+        return {status = "error", message = error}
+    end
+
+    -- Check if the response is nil or not a string
+    if not response or type(response) ~= 'string' then
+        print(response)
+        return {status = "error", message = "Invalid response"}
     end
 
     -- Decode the JSON response
-    print(response)
     local decoded, decodeError = json.decode(response)
 
     if decodeError then
@@ -242,7 +247,7 @@ function getLeaderboardUserScore()
     elseif decoded and decoded.detail then
         -- Handle the specific error returned in the JSON response
         print("Error Detail: ", decoded.detail)
-        return 0
+        return {status = "error", message = decoded.detail}
     end
 
     -- Extract the HighScore value
@@ -250,8 +255,7 @@ function getLeaderboardUserScore()
 
     -- Handle the case when HighScore is nil
     if not highScore then
-        print({status = "error", message = "HighScore not found"})
-        return 0
+        return {status = "error", message = "HighScore not found"}
     end
 
     return highScore
