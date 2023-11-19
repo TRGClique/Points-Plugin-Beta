@@ -44,7 +44,10 @@ local comboMeter = 1
 local comboColor = 0
 local downloadedScoreCache = nil
 if highestScore == nil then
-    highestScore = downloadedScoreCache or getLeaderboardUserScore() or 0
+    
+    if downloadedScoreCache == nil then
+        downloadedScoreCache = getLeaderboardUserScore()
+        highestScore = downloadedScoreCache
 end
 local dangerouslySlowTimer = 0
 local carsState = {}
