@@ -231,7 +231,8 @@ function getLeaderboardUserScore()
         print("Error: ", error)
         return {status = "error", message = error}
     end
-
+    for k, v in pairs(response) do
+        print(k, v)
     -- Check if the response is a table and extract the JSON string
     local jsonResponse
     if type(response) == 'table' then
