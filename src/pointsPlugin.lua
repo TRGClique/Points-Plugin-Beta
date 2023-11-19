@@ -207,6 +207,7 @@ function script.update(dt)
             highestScore = math.floor(totalScore)
             ac.sendChatMessage("scored " .. totalScore .. " points.")
             updateScore(usteamID, totalScore)
+            downloadedScoreCache = nil
         end
         totalScore = 0
         comboMeter = 1
@@ -238,6 +239,7 @@ function script.update(dt)
                 highestScore = math.floor(totalScore)
                 ac.sendChatMessage("scored " .. totalScore .. " points.")
                 updateScore(usteamID, totalScore)
+                downloadedScoreCache = nil
             end
             totalScore = 0
             comboMeter = 1
@@ -286,6 +288,7 @@ function script.update(dt)
                 end
                 totalScore = 0
                 comboMeter = 1
+                downloadedScoreCache = nil
             end
 
             if not state.overtaken and not state.collided and state.drivingAlong then
