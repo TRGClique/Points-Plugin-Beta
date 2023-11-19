@@ -182,6 +182,7 @@ if highestScore == nil then
     if downloadedScoreCache == nil then
         downloadedScoreCache = getLeaderboardUserScore()
         highestScore = downloadedScoreCache
+    end
 end
 
 
