@@ -249,9 +249,9 @@ function getLeaderboardUserScore()
 end
 
 -- Get leaderboard data
-local leaderboardData = getLeaderboard()
+local leaderboardData = getLeaderboardUserScore()
 print(leaderboardData)
-
+print(ac.getUserSteamID())
 
 
 
