@@ -237,7 +237,7 @@ function getLeaderboardUserScore()
     if type(response) == 'table' then
         -- Assuming the JSON string is in a specific field of the table
         -- Replace 'jsonField' with the actual key where the JSON string is stored
-        jsonResponse = response.jsonField
+        jsonResponse = response.HighScore
     elseif type(response) == 'string' then
         jsonResponse = response
     else
