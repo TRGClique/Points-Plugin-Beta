@@ -42,7 +42,7 @@ local timePassed = 0
 local totalScore = 0
 local comboMeter = 1
 local comboColor = 0
-local highestScore = 0
+local highestScore = getLeaderboardUserScore()
 local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
@@ -97,6 +97,7 @@ function script.update(dt)
             if totalScore > highestScore then
                 highestScore = math.floor(totalScore)
                 ac.sendChatMessage("scored " .. totalScore .. " points.")
+                updateScore(usteamID, totalScore)
             end
             totalScore = 0
             comboMeter = 1
@@ -141,6 +142,7 @@ function script.update(dt)
                 if totalScore > highestScore then
                     highestScore = math.floor(totalScore)
                     ac.sendChatMessage("scored " .. totalScore .. " points.")
+                    updateScore(usteamID, totalScore)
                 end
                 totalScore = 0
                 comboMeter = 1
