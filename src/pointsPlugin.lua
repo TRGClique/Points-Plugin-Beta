@@ -261,6 +261,7 @@ function getLeaderboardUserScore()
 
     -- Handle the case when HighScore is nil
     if not highScore then
+        print("Error Detail: HighScore not found")
         return {status = "error", message = "HighScore not found"}
     end
 
