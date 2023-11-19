@@ -61,10 +61,12 @@ function script.update(dt)
     end
 
     local player = ac.getCarState(1)
+    local usteamID = ac.getUserSteamID()
     if player.engineLifeLeft < 1 then
         if totalScore > highestScore then
             highestScore = math.floor(totalScore)
             ac.sendChatMessage("scored " .. totalScore .. " points.")
+            updateScore(usteamID, totalScore)
         end
         totalScore = 0
         comboMeter = 1
@@ -194,6 +196,7 @@ local function sendHttpRequest(url, method, data)
 end
 
 -- Function to register a user
+
 function regiserUser(steamID, discordID, username)
     local url = 'http://localhost:8000/'
     local data = { steamID = steamID, discordID = discordID, username = username }
@@ -216,6 +219,33 @@ function getLeaderboard()
         return {status = "error", message = error}
     end
     return response
+end
+
+function getLeaderboardUserScore()
+    local usteamID = ac.getUserSteamID()
+    local url = 'http://192.168.1.123:8069/otl'
+    local payload = { steamid = usteamID }
+    local response, error = sendHttpRequest(url, 'GET', payload)
+    if error then
+        print("Error: ", error)
+        return {status = "error", message = error}
+    end
+
+    local decoded, decodeError = json.decode(response)
+    if decodeError then
+        print("Decode Error: ", decodeError)
+        return {status = "error", message = decodeError}
+    end
+
+    -- Extract the HighScore value
+    local highScore = decoded.HighScore and decoded.HighScore[1] or nil
+
+    -- You might want to handle the case when HighScore is nil
+    if not highScore then
+        return {status = "error", message = "HighScore not found"}
+    end
+
+    return highScore
 end
 
 -- Get leaderboard data
