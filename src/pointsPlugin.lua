@@ -43,7 +43,9 @@ local totalScore = 0
 local comboMeter = 1
 local comboColor = 0
 local downloadedScoreCache = nil
-local highestScore = downloadedScoreCache or getLeaderboardUserScore()
+if highestScore == nil then
+    highestScore = downloadedScoreCache or getLeaderboardUserScore() or 0
+end
 local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
@@ -62,6 +64,8 @@ function script.update(dt)
         addMessage("Let’s go!", 0)
     end
     local highestScore = downloadedScoreCache or getLeaderboardUserScore()
+    
+
     local player = ac.getCarState(1)
     local usteamID = ac.getUserSteamID()
     if player.engineLifeLeft < 1 then
