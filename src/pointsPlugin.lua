@@ -229,11 +229,12 @@ function getLeaderboardUserScore()
 
     if error then
         print("Error: ", error)
-        ac.log(error)
+        ac.log("Error: ", error)
         return {status = "error", message = error}
     end
     for k, v in pairs(response) do
-        ac.debug(k, v)
+        ac.log(k, v)
+    end
     -- Check if the response is a table and extract the JSON string
     local jsonResponse
     if type(response) == 'table' then
