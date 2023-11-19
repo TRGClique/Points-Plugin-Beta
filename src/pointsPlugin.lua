@@ -229,7 +229,7 @@ function getLeaderboardUserScore()
 
     if error then
         print("Error: ", error)
-        ac.log("Error: ", error)
+        
         return {status = "error", message = error}
     end
     if not response then
