@@ -232,8 +232,9 @@ function getLeaderboardUserScore()
         ac.log("Error: ", error)
         return {status = "error", message = error}
     end
-    for k, v in pairs(response) do
-        ac.log(k, v)
+    if not response then
+        print("Error: Response is nil")
+        return {status = "error", message = "Response is nil"}
     end
     -- Check if the response is a table and extract the JSON string
     local jsonResponse
