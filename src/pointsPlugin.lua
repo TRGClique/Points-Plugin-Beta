@@ -218,7 +218,7 @@ function getLeaderboard()
     local response, error = sendHttpRequest(url, 'GET')
     if error then
         print("Error: ", error)
-        return {status = "error", message = error}
+        return 0
     end
     return response
 end
@@ -232,11 +232,11 @@ function getLeaderboardUserScore()
     if error then
         print("Error: ", error)
         
-        return {status = "error", message = error}
+        return 0
     end
     if not response then
         print("Error: Response is nil")
-        return {status = "error", message = "Response is nil"}
+        return 0
     end
     -- Check if the response is a table and extract the JSON string
     local jsonResponse
@@ -250,7 +250,8 @@ function getLeaderboardUserScore()
     elseif type(response) == 'string' then
         jsonResponse = response
     else
-        return {status = "error", message = "Invalid response type"}
+        ac.log({status = "error", message = "Invalid response type"})
+        return 0
     end
 
     -- Decode the JSON response
@@ -258,11 +259,11 @@ function getLeaderboardUserScore()
 
     if decodeError then
         print("Decode Error: ", decodeError)
-        return {status = "error", message = decodeError}
+        return 0
     elseif decoded and decoded.detail then
         -- Handle the specific error returned in the JSON response
         print("Error Detail: ", decoded.detail)
-        return {status = "error", message = decoded.detail}
+        return 0
     end
 
     -- Extract the HighScore value
@@ -273,7 +274,7 @@ function getLeaderboardUserScore()
         highScore = decoded.HighScore -- HighScore is a direct number
     else
         print("Error Detail: HighScore not found or invalid format")
-        return {status = "error", message = "HighScore not found or invalid format"}
+        return 0
     end
 
     return highScore
