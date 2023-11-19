@@ -42,8 +42,8 @@ local timePassed = 0
 local totalScore = 0
 local comboMeter = 1
 local comboColor = 0
-local downloadedscore = getLeaderboardUserScore()
-local highestScore = downloadedscore
+local downloadedScoreCache = nil
+local highestScore = 0
 local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
@@ -61,7 +61,7 @@ function script.update(dt)
     if timePassed == 0 then
         addMessage("Let’s go!", 0)
     end
-
+    local highestScore = downloadedScoreCache or getLeaderboardUserScore()
     local player = ac.getCarState(1)
     local usteamID = ac.getUserSteamID()
     if player.engineLifeLeft < 1 then
@@ -230,6 +230,9 @@ function getLeaderboardUserScore()
     local url = 'http://192.168.1.123:8069/otl'
     local payload = { steamid = usteamID }
     local response, error = sendHttpRequest(url, 'GET', payload)
+    if downloadedScoreCache then
+        return downloadedScoreCache
+    end
 
     if error then
         print("Error: ", error)
@@ -278,7 +281,7 @@ function getLeaderboardUserScore()
         print("Error Detail: HighScore not found or invalid format")
         return 0
     end
-
+    downloadedScoreCache = highScore
     return highScore
 
 end
