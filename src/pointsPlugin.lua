@@ -210,7 +210,12 @@ end
 -- Function to get the leaderboard
 function getLeaderboard()
     local url = 'http://192.168.1.123:8069/leaderboard'
-    return sendHttpRequest(url, 'GET')
+    local response, error = sendHttpRequest(url, 'GET')
+    if error then
+        print("Error: ", error)
+        return {status = "error", message = error}
+    end
+    return response
 end
 
 -- Get leaderboard data
