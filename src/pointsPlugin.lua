@@ -43,7 +43,7 @@ local totalScore = 0
 local comboMeter = 1
 local comboColor = 0
 local downloadedScoreCache = nil
-
+local highestScore = downloadedScoreCache or getLeaderboardUserScore()
 local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
