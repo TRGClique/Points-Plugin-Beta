@@ -195,21 +195,21 @@ end
 
 -- Function to register a user
 function regiserUser(steamID, discordID, username)
-    local url = 'http://localhost:5000/register'
+    local url = 'http://localhost:8000/'
     local data = { steamID = steamID, discordID = discordID, username = username }
     return sendHttpRequest(url, 'POST', data)
 end
 
 -- Function to update the highest score
-function updateScore(steamID, score)
-    local url = 'http://localhost:5000/update_score'
-    local data = { steamID = steamID, score = score }
+function updateScore(steamID, otl)
+    local url = 'http://192.168.1.123:8000/otl'
+    local data = { steamID = steamID, otl = otl }
     return sendHttpRequest(url, 'POST', data)
 end
 
 -- Function to get the leaderboard
 function getLeaderboard()
-    local url = 'http://localhost:5000/leaderboard'
+    local url = 'http://192.168.1.123:8000/leaderboard'
     return sendHttpRequest(url, 'GET')
 end
 
@@ -217,8 +217,8 @@ end
 local leaderboardData = getLeaderboard()
 print(leaderboardData)
 
-print(debug.getinfo(1).short_src)
-print(debug.getinfo(1))
+
+
 
 -- For various reasons, this is the most questionable part, some UI. I don’t really like
 -- this way though. So, yeah, still thinking about the best way to do it.
