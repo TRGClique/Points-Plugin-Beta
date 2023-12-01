@@ -35,7 +35,7 @@ local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
 local ownSessionId = ac.getCar(0).sessionID
-local leaderboardUrl = "http://" .. ac.getServerIP() .. ":" .. ac.getServerPortHTTP() .. "/overtake"
+local leaderboardUrl = "http://" .. ac.getServerIP() .. ":" .. ac.getServerPortHTTP() .. "/overtake/leaderboard"
 
 function GetLeaderboard(callback)
     web.get(leaderboardUrl, function (err, response)
@@ -79,7 +79,7 @@ local raceStatusEvent = ac.OnlineEvent({
 
         rivalId = data.eventData
         rivalName = GetDriverNameBySessionId(data.eventData)
-        ac.debug("Pointyys", highestScore)
+        ac.debug("rivalName", rivalName)
     end
 
     if data.eventType == EventType.RaceCountdown then
@@ -427,12 +427,12 @@ ui.registerOnlineExtra(ui.Icons.FastForward,
         pointsHUD,
         pointsHUDClosed)
 
-function PrintLeaderboardRow(rank, name, rating)
+function PrintLeaderboardRow(rank, name, score)
     ui.text(tostring(rank))
     ui.nextColumn()
     ui.text(name)
     ui.nextColumn()
-    ui.text(tostring(rating))
+    ui.text(tostring(score))
     ui.nextColumn()
 end
 
@@ -461,10 +461,10 @@ if config.enableLeaderboard then
                 ui.setColumnWidth(0, 45)
                 ui.setColumnWidth(1, 200)
 
-                PrintLeaderboardRow("#", "Name", "Rating")
+                PrintLeaderboardRow("#", "Name", "Score")
 
                 for i, player in ipairs(leaderboard) do
-                    PrintLeaderboardRow(tostring(i) .. ".", player.Name, player.Rating)
+                    PrintLeaderboardRow(tostring(i) .. ".", player.Name, player.Score)
                 end
 
                 PrintLeaderboardRow("...", "", "")
