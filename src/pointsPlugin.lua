@@ -4,26 +4,14 @@
 --- DateTime: 17/10/2023 23:04
 ---
 
--- Whole thing is still at very early stage of development, a lot might and possibly
--- will change. Currently whole thing is limited to sort of original drifting mode
--- level. Observe things that happen, draw some extra UI, score user,
--- decide when session ends.
+local config = ac.configValues({
+    enableLeaderboard = true
+})
 
--- This mode in particular is meant for Track Day with AI Flood on large tracks. Set
--- AIs to draw some slow cars, get yourself that Red Bull monstrousity and try to
--- score some points.
-
--- Key points for future:
--- • Integration with CM’s Quick Drive section, with settings and everything;
--- • These modes might need to be able to force certain CSP parameters — here, for example,
---   it should be AI flood parameters;
--- • To ensure competitiveness, they might also need to collect some data, verify integrity
---   and possibly record short replays?
--- • Remote future: control scene, AIs, spawn extra geometry and so on.
+ac.debug("enableLeaderboard", config.enableLeaderboard)
 
 -- Event configuration:
 local requiredSpeed = 80
-local json = require('json')
 
 -- This function is called before event activates. Once it returns true, it’ll run:
 function script.prepare(dt)
@@ -42,177 +30,43 @@ local timePassed = 0
 local totalScore = 0
 local comboMeter = 1
 local comboColor = 0
-local downloadedScoreCache = nil
-
+local highestScore = 0
 local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
+local ownSessionId = ac.getCar(0).sessionID
+local leaderboardUrl = "http://" .. ac.getServerIP() .. ":" .. ac.getServerPortHTTP() .. "/racechallenge/leaderboard"
+
+function GetLeaderboard(callback)
+    web.get(leaderboardUrl, function (err, response)
+        callback(stringify.parse(response.body))
+    end)
+end
+
+function GetOwnRanking(callback)
+    web.get(leaderboardUrl .. "/" .. ac.getUserSteamID(), function (err, response)
+        callback(stringify.parse(response.body))
+    end)
+end
 
 local image_0 = {
-    ['src'] = 'https://i.ibb.co/n7Rrx7T/Sticker-V2.png',
+    ['src'] = 'https://i.imgur.com/QttPuh0.png',
     ['sizeX'] = 743, --size of your image in pixels
     ['sizeY'] = 744, --size of your image in pixels
-    ['paddingX'] = screenWidth/2-744/2, --this makes it sit in the centre of the screen
+    ['paddingX'] = screenWidth/2-744/2, --this makes it sit in the centre
     ['paddingY'] = -50 --this moves it up 50 pixels
 }
 
-
--- Function to send HTTP requests
-local function sendHttpRequest(url, method, data)
-    local http = require('socket.http')
-    local Itn12 = require('itn12')
-
-    local response_body = {}
-
-    local request_body = data and json.encode(data) or nil
-
-    local res, code, response_headers = http.request {
-        url = url,
-        method = method,
-        headers = {
-            ['Content-Type'] = 'application/json',
-            ['Content-Length'] = request_body and #request_body or 0
-        },
-        source = request_body and Itn12.source.string(request_body),
-        sink = Itn12.sink.table(response_body)
-    }
-
-    if code == 200 then
-        return table.concat(response_body)
-    else
-        return nil
-    end
-end
-
--- Function to register a user
-
-function regiserUser(steamID, discordID, username)
-    local url = 'http://localhost:8000/'
-    local data = { steamID = steamID, discordID = discordID, username = username }
-    return sendHttpRequest(url, 'POST', data)
-end
-
--- Function to update the highest score
-function updateScore(steamID, otl)
-    local url = 'http://192.168.1.123:8069/otl'
-    local data = { steamid = steamID, otl = otl }
-    highestScore = otl
-    return sendHttpRequest(url, 'POST', data)
-end
-
--- Function to get the leaderboard
-function getLeaderboard()
-    local url = 'http://192.168.1.123:8069/leaderboard'
-    local response, error = sendHttpRequest(url, 'GET')
-    if error then
-        print("Error: ", error)
-        return 0
-    end
-    return response
-end
-
-function getLeaderboardUserScore()
-    local usteamID = ac.getUserSteamID()
-    local url = 'http://192.168.1.123:8069/otl'
-    local payload = { steamid = usteamID }
-    local response, error = sendHttpRequest(url, 'GET', payload)
-    if downloadedScoreCache then
-        return downloadedScoreCache
-    end
-
-    if error then
-        print("Error: ", error)
-        
-        return 0
-    end
-    if not response then
-        print("Error: Response is nil")
-        return 0
-    end
-    -- Check if the response is a table and extract the JSON string
-    local jsonResponse
-    if type(response) == 'table' then
-        -- Assuming the JSON string is in a specific field of the table
-        -- Replace 'jsonField' with the actual key where the JSON string is stored
-        jsonResponse = response.HighScore
-        print(jsonResponse)
-        
-
-    elseif type(response) == 'string' then
-        jsonResponse = response
-    else
-        ac.log({status = "error", message = "Invalid response type"})
-        return 0
-    end
-
-    -- Decode the JSON response
-    local decoded, decodeError = json.decode(jsonResponse)
-
-    if decodeError then
-        print("Decode Error: ", decodeError)
-        return 0
-    elseif decoded and decoded.detail then
-        -- Handle the specific error returned in the JSON response
-        print("Error Detail: ", decoded.detail)
-        return 0
-    end
-
-    -- Extract the HighScore value
-    local highScore
-    if decoded and type(decoded.HighScore) == 'table' then
-        highScore = decoded.HighScore[1] -- Assuming HighScore is an array
-    elseif decoded and type(decoded.HighScore) == 'number' then
-        highScore = decoded.HighScore -- HighScore is a direct number
-    else
-        print("Error Detail: HighScore not found or invalid format")
-        return 0
-    end
-    downloadedScoreCache = highScore
-    return highScore
-
-end
-
--- Get leaderboard data
-local leaderboardData = getLeaderboardUserScore()
-print(ac.getUserSteamID())
-print(leaderboardData)
-print(ac.getUserSteamID())
-
-
-
-
-
-
-
-
-
-
-
 function script.update(dt)
-    
     if timePassed == 0 then
         addMessage("Let’s go!", 0)
     end
-    local highestScore = downloadedScoreCache or getLeaderboardUserScore()
-    if highestScore == nil then
-        if downloadedScoreCache == nil then
-            downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
-        end
-        highestScore = downloadedScoreCache or 0 -- Fallback to 0 if downloadedScoreCache is still nil
-    end
 
     local player = ac.getCarState(1)
-    local usteamID = ac.getUserSteamID()
     if player.engineLifeLeft < 1 then
         if totalScore > highestScore then
             highestScore = math.floor(totalScore)
             ac.sendChatMessage("scored " .. totalScore .. " points.")
-            updateScore(usteamID, totalScore)
-            highestScore = nil
-            downloadedScoreCache = nil
-            if downloadedScoreCache == nil then
-                downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
-            end
         end
         totalScore = 0
         comboMeter = 1
@@ -243,12 +97,6 @@ function script.update(dt)
             if totalScore > highestScore then
                 highestScore = math.floor(totalScore)
                 ac.sendChatMessage("scored " .. totalScore .. " points.")
-                updateScore(usteamID, totalScore)
-                highestScore = nil
-                downloadedScoreCache = nil
-                if downloadedScoreCache == nil then
-                    downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
-                end
             end
             totalScore = 0
             comboMeter = 1
@@ -293,15 +141,9 @@ function script.update(dt)
                 if totalScore > highestScore then
                     highestScore = math.floor(totalScore)
                     ac.sendChatMessage("scored " .. totalScore .. " points.")
-                    updateScore(usteamID, totalScore)
                 end
                 totalScore = 0
                 comboMeter = 1
-                downloadedScoreCache = nil
-                highestScore = nil
-                if downloadedScoreCache == nil then
-                    downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
-                end
             end
 
             if not state.overtaken and not state.collided and state.drivingAlong then
@@ -325,8 +167,6 @@ function script.update(dt)
         end
     end
 end
-
-
 
 -- For various reasons, this is the most questionable part, some UI. I don’t really like
 -- this way though. So, yeah, still thinking about the best way to do it.
@@ -393,7 +233,6 @@ end
 
 local speedWarning = 0
 function script.drawUI()
-    
     if uiVisible then
         local uiState = ac.getUiState()
         updateMessages(uiState.dt)
@@ -424,15 +263,10 @@ function script.drawUI()
         ui.beginOutline()
 
         ui.drawImage(image_0.src, vec2(0, 0), vec2(scale, scale), true)
-        if highestScore == nil then
-            if downloadedScoreCache == nil then
-                downloadedScoreCache = getLeaderboardUserScore() -- This will fetch the score if it's not already cached
-            end
-            highestScore = downloadedScoreCache or 0 -- Fallback to 0 if downloadedScoreCache is still nil
-        end
+
         ui.pushStyleVar(ui.StyleVar.Alpha, 1 - speedWarning)
         ui.pushFont(ui.Font.Main)
-        ui.textAligned("Highest Score: " .. downloadedScoreCache .. " pts", vec2(50, 50))
+        ui.textAligned("Highest Score: " .. highestScore .. " pts", vec2(50, 50))
         ui.popFont()
         ui.popStyleVar()
 
@@ -523,3 +357,60 @@ ui.registerOnlineExtra(ui.Icons.FastForward,
         nil,
         pointsHUD,
         pointsHUDClosed)
+
+function PrintLeaderboardRow(rank, name, rating)
+    ui.text(tostring(rank))
+    ui.nextColumn()
+    ui.text(name)
+    ui.nextColumn()
+    ui.text(tostring(rating))
+    ui.nextColumn()
+end
+
+local loadingLeaderboard = false
+local leaderboard = nil
+local ownRanking = nil
+
+if config.enableLeaderboard then
+    ui.registerOnlineExtra(ui.Icons.Leaderboard, "Race Challenge Leaderboard", function () return true end, function ()
+        if not loadingLeaderboard then
+            loadingLeaderboard = true
+            GetLeaderboard(function (response)
+                leaderboard = response
+            end)
+            GetOwnRanking(function (response)
+                ownRanking = response
+            end)
+        end
+
+        local close = false
+        ui.childWindow('raceChallengeLeaderboard', vec2(0, 275), false, ui.WindowFlags.None, function ()
+            if leaderboard == nil or ownRanking == nil then
+                ui.text("Loading...")
+            else
+                ui.columns(3)
+                ui.setColumnWidth(0, 45)
+                ui.setColumnWidth(1, 200)
+
+                PrintLeaderboardRow("#", "Name", "Rating")
+
+                for i, player in ipairs(leaderboard) do
+                    PrintLeaderboardRow(tostring(i) .. ".", player.Name, player.Rating)
+                end
+
+                PrintLeaderboardRow("...", "", "")
+                PrintLeaderboardRow(ownRanking.Rank .. ".", ac.getDriverName(0), ownRanking.Rating)
+
+                ui.columns()
+            end
+
+            ui.offsetCursorY(ui.availableSpaceY() - 32)
+            if ui.button("Close") then
+                close = true
+                loadingLeaderboard = false
+            end
+        end)
+
+        return close
+    end)
+end
