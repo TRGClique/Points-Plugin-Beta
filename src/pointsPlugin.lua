@@ -30,7 +30,7 @@ local timePassed = 0
 local totalScore = 0
 local comboMeter = 1
 local comboColor = 0
-local score = 0
+local highestScore = 0
 local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
@@ -458,7 +458,7 @@ function script.drawUI()
 
         ui.pushStyleVar(ui.StyleVar.Alpha, 1 - speedWarning)
         ui.pushFont(ui.Font.Main)
-        ui.textAligned("Highest Score: " .. score .. " pts", vec2(50, 50))
+        ui.textAligned("Highest Score: " .. highestScore .. " pts", vec2(50, 50))
         ui.popFont()
         ui.popStyleVar()
 
