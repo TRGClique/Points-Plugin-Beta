@@ -458,7 +458,7 @@ function script.drawUI()
 
         ui.pushStyleVar(ui.StyleVar.Alpha, 1 - speedWarning)
         ui.pushFont(ui.Font.Main)
-        ui.textAligned("Highest Score: " .. score .. " pts", vec2(50, 50))
+        ui.textAligned("Highest Score: " .. tostring(score) .. " pts", vec2(50, 50))
         ui.popFont()
         ui.popStyleVar()
 
