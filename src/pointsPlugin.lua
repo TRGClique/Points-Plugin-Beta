@@ -35,7 +35,7 @@ local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
 local ownSessionId = ac.getCar(0).sessionID
-local leaderboardUrl = "http://" .. ac.getServerIP() .. ":" .. ac.getServerPortHTTP() .. "/racechallenge/leaderboard"
+local leaderboardUrl = "http://" .. ac.getServerIP() .. ":" .. ac.getServerPortHTTP() .. "/overtake/leaderboard"
 
 function GetLeaderboard(callback)
     web.get(leaderboardUrl, function (err, response)
@@ -48,6 +48,75 @@ function GetOwnRanking(callback)
         callback(stringify.parse(response.body))
     end)
 end
+
+function GetDriverNameBySessionId(sessionId)
+    local count = ac.getSim().carsCount
+    for i = 0, count do
+        local car = ac.getCar(i)
+        if car.sessionID == sessionId then
+            return ac.getDriverName(car.index)
+        end
+    end
+end
+
+local raceStatusEvent = ac.OnlineEvent({
+    eventType = ac.StructItem.byte(),
+    eventData = ac.StructItem.int32(),
+}, function (sender, data)
+    -- only accept packets from server
+    if sender ~= nil then
+        return
+    end
+
+    ac.debug("eventType", data.eventType)
+    ac.debug("eventData", data.eventData)
+
+    if data.eventType == EventType.RaceChallenge then
+        rivalHealth = 1.0
+        rivalRate = 0
+        ownHealth = 1.0
+        rivalRate = 0
+
+        rivalId = data.eventData
+        rivalName = GetDriverNameBySessionId(data.eventData)
+        ac.debug("Pointyys", rivalName)
+    end
+
+    if data.eventType == EventType.RaceCountdown then
+        raceStartTime = data.eventData
+    end
+
+    if data.eventType == EventType.RaceEnded then
+        lastWinner = data.eventData
+        raceEndTime = GetSessionTime()
+    end
+
+    lastEvent = data.eventType
+end)
+
+local raceUpdateEvent = ac.OnlineEvent({
+    ownHealth = ac.StructItem.float(),
+    ownRate = ac.StructItem.float(),
+    rivalHealth = ac.StructItem.float(),
+    rivalRate = ac.StructItem.float()
+}, function (sender, data)
+    -- only accept packets from server
+    if sender ~= nil then
+        return
+    end
+
+    ac.debug("sender", sender)
+
+    ownHealth = data.ownHealth
+    ownRate = data.ownRate
+    rivalHealth = data.rivalHealth
+    rivalRate = data.rivalRate
+
+    ac.debug("ownHealth", ownHealth)
+    ac.debug("ownRate", ownRate)
+    ac.debug("rivalHealth", rivalHealth)
+    ac.debug("rivalRate", rivalRate)
+end)
 
 local image_0 = {
     ['src'] = 'https://i.imgur.com/QttPuh0.png',
@@ -353,7 +422,7 @@ end
 
 -- Register the app to the extras menu
 ui.registerOnlineExtra(ui.Icons.FastForward,
-        'TRG UI',
+        'Points UI',
         nil,
         pointsHUD,
         pointsHUDClosed)
@@ -372,7 +441,7 @@ local leaderboard = nil
 local ownRanking = nil
 
 if config.enableLeaderboard then
-    ui.registerOnlineExtra(ui.Icons.Leaderboard, "Race Challenge Leaderboard", function () return true end, function ()
+    ui.registerOnlineExtra(ui.Icons.Leaderboard, "Points Leaderboard", function () return true end, function ()
         if not loadingLeaderboard then
             loadingLeaderboard = true
             GetLeaderboard(function (response)
@@ -384,7 +453,7 @@ if config.enableLeaderboard then
         end
 
         local close = false
-        ui.childWindow('raceChallengeLeaderboard', vec2(0, 275), false, ui.WindowFlags.None, function ()
+        ui.childWindow("overtakeLeaderboard", vec2(0, 275), false, ui.WindowFlags.None, function ()
             if leaderboard == nil or ownRanking == nil then
                 ui.text("Loading...")
             else
