@@ -35,7 +35,7 @@ local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
 local ownSessionId = ac.getCar(0).sessionID
-local leaderboardUrl = "http://" .. ac.getServerIP() .. ":" .. ac.getServerPortHTTP() .. "/overtake?leaderboard=SRP"
+local leaderboardUrl = "http://" .. ac.getServerIP() .. ":" .. ac.getServerPortHTTP() .. "/racechallenge/leaderboard"
 
 function GetLeaderboard(callback)
     web.get(leaderboardUrl, function (err, response)
@@ -458,7 +458,7 @@ function script.drawUI()
 
         ui.pushStyleVar(ui.StyleVar.Alpha, 1 - speedWarning)
         ui.pushFont(ui.Font.Main)
-        ui.textAligned("Highest Score: " .. tostring(score) .. " pts", vec2(50, 50))
+        ui.textAligned("Highest Score: " .. highestScore .. " pts", vec2(50, 50))
         ui.popFont()
         ui.popStyleVar()
 
