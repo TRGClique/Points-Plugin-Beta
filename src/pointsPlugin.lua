@@ -40,6 +40,7 @@ local leaderboardUrl = "http://" .. ac.getServerIP() .. ":" .. ac.getServerPortH
 local msg = ac.OnlineEvent({
     ac.StructItem.key("overtakeScoreEnd"),
     Score = ac.StructItem.int64(),
+    highestScore = Score,
     Multiplier = ac.StructItem.int32(),
     Car = ac.StructItem.string(64),
 })
@@ -252,8 +253,6 @@ local image_0 = {
 }
 
 function script.update(dt)
-    highestScore = msg.highestScore
-
     if timePassed == 0 then
         addMessage("Let’s go!", 0)
     end
