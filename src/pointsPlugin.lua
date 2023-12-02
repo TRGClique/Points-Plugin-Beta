@@ -253,8 +253,8 @@ function script.update(dt)
 
     local player = ac.getCarState(1)
     if player.engineLifeLeft < 1 then
-        if totalScore > score then
-            score = math.floor(totalScore)
+        if totalScore > highestScore then
+            highestScore = math.floor(totalScore)
             ac.sendChatMessage("scored " .. totalScore .. " points.")
         end
         totalScore = 0
@@ -283,8 +283,8 @@ function script.update(dt)
 
     if player.speedKmh < requiredSpeed then
         if dangerouslySlowTimer > 3 then
-            if totalScore > score then
-                score = math.floor(totalScore)
+            if totalScore > highestScore then
+                highestScore = math.floor(totalScore)
                 ac.sendChatMessage("scored " .. totalScore .. " points.")
             end
             totalScore = 0
@@ -327,8 +327,8 @@ function script.update(dt)
                 addMessage("Collision", -1)
                 state.collided = true
 
-                if totalScore > score then
-                    score = math.floor(totalScore)
+                if totalScore > highestScore then
+                    highestScore = math.floor(totalScore)
                     ac.sendChatMessage("scored " .. totalScore .. " points.")
                 end
                 totalScore = 0
