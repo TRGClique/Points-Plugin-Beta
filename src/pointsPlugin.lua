@@ -252,6 +252,8 @@ local image_0 = {
 }
 
 function script.update(dt)
+    highestScore = msg.highestScore
+
     if timePassed == 0 then
         addMessage("Let’s go!", 0)
     end
