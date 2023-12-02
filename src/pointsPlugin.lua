@@ -35,7 +35,7 @@ local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
 local ownSessionId = ac.getCar(0).sessionID
-local leaderboardUrl = "http://" .. ac.getServerIP() .. ":" .. ac.getServerPortHTTP() .. "/racechallenge/leaderboard"
+local leaderboardUrl = "http://" .. ac.getServerIP() .. ":" .. "8000" .. "/racechallenge/leaderboard"
 
 function GetLeaderboard(callback)
     web.get(leaderboardUrl, function (err, response)
