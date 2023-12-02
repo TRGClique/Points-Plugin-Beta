@@ -125,8 +125,6 @@ local raceUpdateEvent = ac.OnlineEvent({
     ac.debug("rivalRate", rivalRate)
 end)
 
-
-
 function GetSessionTime()
     return ac.getSim().timeToSessionStart * -1
 end
@@ -263,7 +261,7 @@ function script.update(dt)
         if totalScore > highestScore then
             highestScore = math.floor(totalScore)
             ac.sendChatMessage("scored " .. totalScore .. " points.")
-            msg{ Score = personalBest, Multiplier = comboMeter, Car = ac.getCarName(0) }
+            msg{ Score = highestScore, Multiplier = comboMeter, Car = ac.getCarName(0) }
         end
         totalScore = 0
         comboMeter = 1
@@ -294,7 +292,7 @@ function script.update(dt)
             if totalScore > highestScore then
                 highestScore = math.floor(totalScore)
                 ac.sendChatMessage("scored " .. totalScore .. " points.")
-                msg{ Score = personalBest, Multiplier = comboMeter, Car = ac.getCarName(0) }
+                msg{ Score = highestScore, Multiplier = comboMeter, Car = ac.getCarName(0) }
             end
             totalScore = 0
             comboMeter = 1
@@ -339,7 +337,7 @@ function script.update(dt)
                 if totalScore > highestScore then
                     highestScore = math.floor(totalScore)
                     ac.sendChatMessage("scored " .. totalScore .. " points.")
-                    msg{ Score = personalBest, Multiplier = comboMeter, Car = ac.getCarName(0) }
+                    msg{ Score = highestScore, Multiplier = comboMeter, Car = ac.getCarName(0) }
                 end
                 totalScore = 0
                 comboMeter = 1
