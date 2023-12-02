@@ -35,7 +35,14 @@ local dangerouslySlowTimer = 0
 local carsState = {}
 local wheelsWarningTimeout = 0
 local ownSessionId = ac.getCar(0).sessionID
-local leaderboardUrl = "http://" .. ac.getServerIP() .. ":" .. ac.getServerPortHTTP() .. "/overtake"
+local leaderboardUrl = "http://" .. ac.getServerIP() .. ":" .. ac.getServerPortHTTP() .. "/racechallenge/leaderboard"
+
+local msg = ac.OnlineEvent({
+    ac.StructItem.key("overtakeScoreEnd"),
+    Score = ac.StructItem.int64(),
+    Multiplier = ac.StructItem.int32(),
+    Car = ac.StructItem.string(64),
+})
 
 function GetLeaderboard(callback)
     web.get(leaderboardUrl, function (err, response)
@@ -256,6 +263,7 @@ function script.update(dt)
         if totalScore > highestScore then
             highestScore = math.floor(totalScore)
             ac.sendChatMessage("scored " .. totalScore .. " points.")
+            msg{ Score = personalBest, Multiplier = comboMeter, Car = ac.getCarName(0) }
         end
         totalScore = 0
         comboMeter = 1
@@ -286,6 +294,7 @@ function script.update(dt)
             if totalScore > highestScore then
                 highestScore = math.floor(totalScore)
                 ac.sendChatMessage("scored " .. totalScore .. " points.")
+                msg{ Score = personalBest, Multiplier = comboMeter, Car = ac.getCarName(0) }
             end
             totalScore = 0
             comboMeter = 1
@@ -330,6 +339,7 @@ function script.update(dt)
                 if totalScore > highestScore then
                     highestScore = math.floor(totalScore)
                     ac.sendChatMessage("scored " .. totalScore .. " points.")
+                    msg{ Score = personalBest, Multiplier = comboMeter, Car = ac.getCarName(0) }
                 end
                 totalScore = 0
                 comboMeter = 1
