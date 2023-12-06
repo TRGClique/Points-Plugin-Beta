@@ -413,7 +413,8 @@ function script.drawUI()
         ui.beginTransparentWindow("overtakeScore", vec2(100 +  xLvl, 100 + yLvl), vec2(100 +  xLvl + scale, 100 + yLvl + scale))
         ui.beginOutline()
 
-        ui.drawImage(image_0.src, vec2(-scale/2, scale/2), vec2(scale, scale), true)
+        ui.drawImage(image_0.src, vec2(0, 0), vec2(scale, scale), true)
+
         ui.pushStyleVar(ui.StyleVar.Alpha, 1 - speedWarning)
         ui.pushFont(ui.Font.Main)
         -- ui.textAligned("Highest Score: " .. highestScore .. " pts", vec2(50, 50))
@@ -421,7 +422,7 @@ function script.drawUI()
         ui.popStyleVar()
 
         ui.pushFont(ui.Font.Title)
-        ui.textAligned(totalScore .. " pts", vec2(50, 50))
+        ui.textAligned(totalScore .. " pts", vec2(scale/2, scale/2))
         ui.text(totalScore .. " pts")
         ui.sameLine(0, 20)
         ui.beginRotation()
