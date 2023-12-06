@@ -40,7 +40,6 @@ local leaderboardUrl = "http://" .. ac.getServerIP() .. ":" .. ac.getServerPortH
 local msg = ac.OnlineEvent({
     ac.StructItem.key("overtakeScoreEnd"),
     Score = ac.StructItem.int64(),
-    highestScore = Score,
     Multiplier = ac.StructItem.int32(),
     Car = ac.StructItem.string(64),
 })
@@ -129,55 +128,6 @@ end)
 function GetSessionTime()
     return ac.getSim().timeToSessionStart * -1
 end
-
--- sending a new message:
---raceUpdateEvent{ ownHealth = 0.6, ownRate = -0.2, rivalHealth = 0.3, rivalRate = -0.5 }
---raceStatusEvent{ eventType = 1, eventData = 2 }
-
-local lastUiUpdate = GetSessionTime()
-function script.drawUI()
-
-    ac.debug("lastEvent", lastEvent)
-    ac.debug("rivalId", rivalId)
-
-    local currentTime = GetSessionTime()
-    local dt = currentTime - lastUiUpdate
-    lastUiUpdate = currentTime
-    local raceTimeElapsed = currentTime - raceStartTime
-
-    ac.debug("raceTimeElapsed", raceTimeElapsed)
-    ac.debug("dt", dt)
-
-    if lastEvent == EventType.RaceCountdown then
-        if raceTimeElapsed > -3000 and raceTimeElapsed < 0 then
-            DrawHealthHud(0)
-            local text = math.ceil(raceTimeElapsed / 1000 * -1)
-            DrawTextCentered(text)
-        elseif raceTimeElapsed > 0 then
-            if raceTimeElapsed < 1000 then
-                DrawTextCentered("Go!")
-            end
-
-            ownHealth = ownHealth + ownRate * (dt / 1000)
-            rivalHealth = rivalHealth + rivalRate * (dt / 1000)
-
-            DrawHealthHud(raceTimeElapsed)
-        end
-    end
-
-    if lastEvent == EventType.RaceEnded and raceEndTime > currentTime - 3000 then
-        DrawHealthHud(raceEndTime - raceStartTime)
-
-        if lastWinner == 255 then
-            DrawTextCentered("Race cancelled")
-        elseif lastWinner == ownSessionId then
-            DrawTextCentered("You won the race!")
-        else
-            DrawTextCentered("You lost the race.")
-        end
-    end
-end
-
 
 function DrawTextCentered(text)
     local uiState = ac.getUI()
@@ -463,11 +413,10 @@ function script.drawUI()
         ui.beginTransparentWindow("overtakeScore", vec2(100 +  xLvl, 100 + yLvl), vec2(100 +  xLvl + scale, 100 + yLvl + scale))
         ui.beginOutline()
 
-        ui.drawImage(image_0.src, vec2(0, 0), vec2(scale, scale), true)
-
+        ui.drawImage(image_0.src, vec2(-scale/2, scale/2), vec2(scale, scale), true)
         ui.pushStyleVar(ui.StyleVar.Alpha, 1 - speedWarning)
         ui.pushFont(ui.Font.Main)
-        ui.textAligned("Highest Score: " .. highestScore .. " pts", vec2(50, 50))
+        -- ui.textAligned("Highest Score: " .. highestScore .. " pts", vec2(50, 50))
         ui.popFont()
         ui.popStyleVar()
 
